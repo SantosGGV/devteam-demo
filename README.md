@@ -2,9 +2,9 @@
 
 Este modulo proporciona una funcion para calcular el factorial de un numero.
 
-### Funciones
+### Funcion factorial
 
-* `factorial(n)`: Calcula el factorial de un numero `n`.
+Calcula el factorial de un numero.
 
 ### Ejemplo de uso
 
@@ -12,12 +12,14 @@ Este modulo proporciona una funcion para calcular el factorial de un numero.
 print(factorial(5))
 ```
 
-## Tipo de cambio
+### Tipo de cambio
 
-* Tipo: feature
-* Prefijo: feat
-* Coverage: 0.0%
+Tipo: feature | Prefijo: feat
 
-## Ficheros afectados
+### Cobertura
 
-* modulo.py
+Coverage: 0.0%
+
+### Ficheros afectados
+
+- modulo.py

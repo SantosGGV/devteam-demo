@@ -1,11 +1,11 @@
 def factorial(n):
-    """Calcula el factorial de un numero `n`.
+    """Calcula el factorial de un numero.
 
     Args:
         n (int): El numero para calcular el factorial.
 
     Returns:
-        int: El factorial del numero `n`.
+        int: El factorial del numero.
     """
     if n == 0:
         return 1
