@@ -1,17 +1,27 @@
-## Modulo de conversión de temperatura
+## Stack
 
-Este modulo permite convertir temperatura de Celsius a Fahrenheit y viceversa.
+La clase Stack implementa una pila con métodos push, pop y peek.
+
+### Métodos
+
+* `push(elemento)`: agrega un elemento a la pila.
+* `pop()`: elimina y devuelve el último elemento de la pila.
+* `peek()`: devuelve el último elemento de la pila sin eliminarlo.
 
 ### Ejemplo de uso
 
 ```python
-from modulo import temperatura_a_fahrenheit, temperatura_a_celsius
-
-print(temperatura_a_fahrenheit(30))  # 86.0
-print(temperatura_a_celsius(86))  # 30.0
+stack = Stack()
+stack.push(1)
+stack.push(2)
+print(stack.peek())  # imprime 2
+print(stack.pop())  # imprime 2
 ```
 
-### Funciones
+### Cobertura de código
 
-* `temperatura_a_fahrenheit(celsius)`: Convierte temperatura de Celsius a Fahrenheit.
-* `temperatura_a_celsius(fahrenheit)`: Convierte temperatura de Fahrenheit a Celsius.
+La cobertura de código es del 0.0%.
+
+### Ficheros involucrados
+
+* `modulo.py`

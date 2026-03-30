@@ -1,14 +1,12 @@
 import pytest
-from modulo import convertir_temperatura
+from modulo import Stack
 
-def test_convertir_celsius_a_fahrenheit():
-    assert convertir_temperatura(0, 'C', 'F') == 32.0
-
-def test_convertir_fahrenheit_a_celsius():
-    assert convertir_temperatura(32, 'F', 'C') == 0.0
-
-def test_convertir_celsius_a_celsius():
-    assert convertir_temperatura(0, 'C', 'C') == 0.0
-
-def test_convertir_fahrenheit_a_fahrenheit():
-    assert convertir_temperatura(32, 'F', 'F') == 32.0
+def test_stack_push_pop_peek():
+    stack = Stack()
+    stack.push(1)
+    stack.push(2)
+    assert stack.peek() == 2
+    assert stack.pop() == 2
+    assert stack.pop() == 1
+    with pytest.raises(IndexError):
+        stack.pop()
