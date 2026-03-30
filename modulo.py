@@ -1,15 +1,21 @@
-def convertir_temperatura(grados, unidad):
-    """
-    Convierte temperatura de Celsius a Fahrenheit y viceversa.
+def temperatura_a_fahrenheit(celsius):
+    """Convierte temperatura de Celsius a Fahrenheit.
 
     Args:
-        grados (float): Temperatura en grados.
-        unidad (str): Unidad de medida ('C' o 'F').
+        celsius (float): Temperatura en Celsius.
 
     Returns:
-        tuple: Temperatura convertida y unidad de medida.
+        float: Temperatura en Fahrenheit.
     """
-    if unidad == 'C':
-        return (grados * 9/5) + 32, 'F'
-    elif unidad == 'F':
-        return (grados - 32) * 5/9, 'C'
+    return (celsius * 9/5) + 32
+
+def temperatura_a_celsius(fahrenheit):
+    """Convierte temperatura de Fahrenheit a Celsius.
+
+    Args:
+        fahrenheit (float): Temperatura en Fahrenheit.
+
+    Returns:
+        float: Temperatura en Celsius.
+    """
+    return (fahrenheit - 32) * 5/9
