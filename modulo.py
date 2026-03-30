@@ -1,16 +1,15 @@
-def factorial(n):
-    """Calcula el factorial de un numero.
+def convertir_temperatura(grados, unidad):
+    """
+    Convierte temperatura de Celsius a Fahrenheit y viceversa.
 
     Args:
-        n (int): El numero para calcular el factorial.
+        grados (float): Temperatura en grados.
+        unidad (str): Unidad de medida ('C' o 'F').
 
     Returns:
-        int: El factorial del numero.
+        tuple: Temperatura convertida y unidad de medida.
     """
-    if n == 0:
-        return 1
-    else:
-        return n * factorial(n-1)
-
-# Ejemplo de uso
-print(factorial(5))
+    if unidad == 'C':
+        return (grados * 9/5) + 32, 'F'
+    elif unidad == 'F':
+        return (grados - 32) * 5/9, 'C'

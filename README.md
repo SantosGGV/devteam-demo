@@ -1,25 +1,21 @@
-## Modulo de calculo de factorial
+## Modulo de conversión de temperatura
 
-Este modulo proporciona una funcion para calcular el factorial de un numero.
-
-### Funcion factorial
-
-Calcula el factorial de un numero.
+Este modulo permite convertir temperatura de Celsius a Fahrenheit y viceversa.
 
 ### Ejemplo de uso
 
 ```python
-print(factorial(5))
+from modulo import convertir_temperatura
+
+print(convertir_temperatura(30, 'C'))  # Salida: (86.0, 'F')
+print(convertir_temperatura(86, 'F'))  # Salida: (30.0, 'C')
 ```
 
-### Tipo de cambio
+### Función convertir_temperatura
 
-Tipo: feature | Prefijo: feat
+La función convertir_temperatura toma dos argumentos: grados y unidad. La función devuelve una tupla con la temperatura convertida y la unidad de medida.
 
-### Cobertura
+### Unidades de medida
 
-Coverage: 0.0%
-
-### Ficheros afectados
-
-- modulo.py
+- C: Celsius
+- F: Fahrenheit
