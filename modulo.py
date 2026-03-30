@@ -1,24 +1,16 @@
 class Stack:
-    """Clase que implementa una pila con métodos push, pop y peek."""
+    def __init__(self) -> None:
+        self._elements: list[int] = []
 
-    def __init__(self):
-        """Inicializa la pila vacía."""
-        self.elementos = []
+    def push(self, value: int) -> None:
+        self._elements.append(value)
 
-    def push(self, elemento):
-        """Agrega un elemento a la pila."""
-        self.elementos.append(elemento)
-
-    def pop(self):
-        """Elimina y devuelve el último elemento de la pila. Si la pila está vacía, levanta una excepción IndexError."""
-        if self.elementos:
-            return self.elementos.pop()
-        else:
+    def pop(self) -> int:
+        if not self._elements:
             raise IndexError('Pila vacía')
+        return self._elements.pop()
 
-    def peek(self):
-        """Devuelve el último elemento de la pila sin eliminarlo. Si la pila está vacía, levanta una excepción IndexError."""
-        if self.elementos:
-            return self.elementos[-1]
-        else:
+    def peek(self) -> int:
+        if not self._elements:
             raise IndexError('Pila vacía')
+        return self._elements[-1]
