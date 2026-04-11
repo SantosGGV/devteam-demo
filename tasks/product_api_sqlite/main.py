@@ -1,90 +1,76 @@
-from fastapi import FastAPI
-from sqlalchemy import create_engine
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import JSONResponse
+from sqlalchemy import create_engine, Column, Integer, String, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-
-"""
-API de Productos con FastAPI y SQLAlchemy
-
-Esta API gestiona una lista de productos con nombre, precio y stock.
-
-### Requisitos
-
-- Python 3.8 o superior
-- FastAPI
-- SQLAlchemy
-
-### Instalación
-
-1. Clona el repositorio
-2. Crea un entorno virtual con `python -m venv venv`
-3. Activa el entorno virtual con `source venv/bin/activate`
-4. Instala las dependencias con `pip install -r requirements.txt`
-5. Corre la API con `uvicorn main:app --host 0.0.0.0 --port 8000`
-
-### Endpoints
-
-- GET /products: Obtiene la lista de productos
-- POST /products: Crea un nuevo producto
-- GET /products/{id}: Obtiene un producto por ID
-- PUT /products/{id}: Actualiza un producto
-- DELETE /products/{id}: Elimina un producto
-"""
+from pydantic import BaseModel
 
 # Configuración de la base de datos
-SQLALCHEMY_DATABASE_URL = 'sqlite:///products.db'
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+engine = create_engine('sqlite:///products.db')
 Base = declarative_base()
+Session = sessionmaker(bind=engine)
+session = Session()
 
-# Definición de la tabla de productos
+# Modelo de producto
 class Producto(Base):
-    """
-    Clase que representa un producto
-
-    Attributes:
-        id (int): ID del producto
-        nombre (str): Nombre del producto
-        precio (float): Precio del producto
-        stock (int): Stock del producto
-    """
     __tablename__ = 'productos'
     id = Column(Integer, primary_key=True)
     nombre = Column(String)
     precio = Column(Float)
     stock = Column(Integer)
 
-# Creación de la base de datos
+# Esquema de producto
+class ProductoSchema(BaseModel):
+    nombre: str
+    precio: float
+    stock: int
+
+# Crear la base de datos
 Base.metadata.create_all(engine)
 
-# Creación de la API
+# Inicializar la aplicación FastAPI
 app = FastAPI()
 
-# Ruta para obtener la lista de productos
-@app.get('/products')
-def obtener_productos(db: Session = Depends(get_db)) -> List[Producto]:
-    """
-    Obtiene la lista de productos
+# Obtener todos los productos
+@app.get("/products")
+def obtener_productos():
+    productos = session.query(Producto).all()
+    return [{"id": p.id, "nombre": p.nombre, "precio": p.precio, "stock": p.stock} for p in productos]
 
-    Returns:
-        List[Producto]: Lista de productos
-    """
-    return db.query(Producto).all()
+# Crear un nuevo producto
+@app.post("/products")
+def crear_producto(producto: ProductoSchema):
+    nuevo_producto = Producto(nombre=producto.nombre, precio=producto.precio, stock=producto.stock)
+    session.add(nuevo_producto)
+    session.commit()
+    return JSONResponse(content={"mensaje": "Producto creado con éxito"}, status_code=201)
 
-# Ruta para crear un nuevo producto
-@app.post('/products')
-def crear_producto(db: Session = Depends(get_db), producto: ProductoCreate = Body(...)) -> Producto:
-    """
-    Crea un nuevo producto
+# Obtener un producto por id
+@app.get("/products/{id}")
+def obtener_producto(id: int):
+    producto = session.query(Producto).filter(Producto.id == id).first()
+    if producto is None:
+        raise HTTPException(status_code=404, detail="Producto no encontrado")
+    return {"id": producto.id, "nombre": producto.nombre, "precio": producto.precio, "stock": producto.stock}
 
-    Args:
-        producto (ProductoCreate): Datos del producto a crear
+# Actualizar un producto
+@app.put("/products/{id}")
+def actualizar_producto(id: int, producto: ProductoSchema):
+    producto_actual = session.query(Producto).filter(Producto.id == id).first()
+    if producto_actual is None:
+        raise HTTPException(status_code=404, detail="Producto no encontrado")
+    producto_actual.nombre = producto.nombre
+    producto_actual.precio = producto.precio
+    producto_actual.stock = producto.stock
+    session.commit()
+    return JSONResponse(content={"mensaje": "Producto actualizado con éxito"}, status_code=200)
 
-    Returns:
-        Producto: El producto creado
-    """
-    db_producto = Producto(nombre=producto.nombre, precio=producto.precio, stock=producto.stock)
-    db.add(db_producto)
-    db.commit()
-    db.refresh(db_producto)
-    return db_producto
+# Eliminar un producto
+@app.delete("/products/{id}")
+def eliminar_producto(id: int):
+    producto = session.query(Producto).filter(Producto.id == id).first()
+    if producto is None:
+        raise HTTPException(status_code=404, detail="Producto no encontrado")
+    session.delete(producto)
+    session.commit()
+    return JSONResponse(content={"mensaje": "Producto eliminado con éxito"}, status_code=200)
