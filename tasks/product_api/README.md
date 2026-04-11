@@ -1,0 +1,1 @@
+se ha agregado un nuevo endpoint POST /products
