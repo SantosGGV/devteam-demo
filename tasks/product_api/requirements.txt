@@ -1,3 +1,1 @@
-fastapi
-pydantic
-uvicorn
+se ha agregado la dependencia necesaria para el nuevo endpoint
