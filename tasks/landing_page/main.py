@@ -1,15 +1,18 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+import os
 
 app = FastAPI()
 
-@app.get('/')
-def read_root():
-    """Return a message.
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
-    Args:
-        None
+try:
+    app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
+except Exception:
+    pass
 
-    Returns:
-        dict: A dictionary with a message.
-    """
-    return {'message': 'Hello World'}
+@app.get("/")
+def read_root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
