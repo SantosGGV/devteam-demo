@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, request, jsonify
 from sqlite3 import connect
 
 app = Flask(__name__)
