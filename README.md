@@ -26,7 +26,7 @@ Una API REST para un restaurante italiano con endpoints para carta del menú y s
 
 0.0%
 
-### Tipo de cambio
+### Tipo
 
 Feature
 
